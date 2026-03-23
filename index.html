@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cook with Debora</title>
+    <link href="[fonts.googleapis.com](https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&display=swap)" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #e07b53;
+            --primary-dark: #c4643f;
+            --secondary: #2c3e50;
+            --cream: #fdf6f0;
+            --text: #333;
+            --text-light: #666;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--cream);
+        }
+
+        /* Navigation */
+        nav {
+            background: white;
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--secondary);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--secondary);
+            border-radius: 3px;
+            transition: 0.3s;
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 70px;
+            min-height: 90vh;
+            background: linear-gradient(135deg, rgba(224, 123, 83, 0.9), rgba(44, 62, 80, 0.8)),
+                        url('[images.unsplash.com](https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1600)') center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            color: white;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        /* About Section */
+        .about {
+            padding: 6rem 2rem;
+            background: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-light);
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-image {
+            position: relative;
+        }
+
+        .about-image img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .about-image::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 3px solid var(--primary);
+            border-radius: 20px;
+            top: 20px;
+            left: 20px;
+            z-index: -1;
+        }
+
+        .about-text h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--secondary);
+        }
+
+        .about-text p {
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .signature {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--primary);
+            margin-top: 1.5rem;
+        }
+
+        /* Recipes Section */
+        .recipes {
+            padding: 6rem 2rem;
+            background: var(--cream);
+        }
+
+        .recipes-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .recipe-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .recipe-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .recipe-image {
+            position: relative;
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .recipe-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .recipe-card:hover .recipe-image img {
+            transform: scale(1.1);
+        }
+
+        .recipe-category {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--primary);
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .recipe-content {
+            padding: 1.5rem;
+        }
+
+        .recipe-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            margin-bottom: 0.8rem;
+            color: var(--secondary);
+        }
+
+        .recipe-content p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .recipe-meta {
+            display: flex;
+            gap: 1.5rem;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .recipe-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        /* Featured Recipe */
+        .featured {
+            padding: 6rem 2rem;
+            background: white;
+        }
+
+        .featured-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .featured-image img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .featured-text h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+
+        .featured-text > p {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .ingredients-list {
+            background: var(--cream);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+        }
+
+        .ingredients-list h4 {
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+
+        .ingredients-list ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+        }
+
+        .ingredients-list li {
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--text-light);
+        }
+
+        .ingredients-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, var(--secondary) 0%, #1a252f 100%);
+            color: white;
+        }
+
+        .contact .section-title {
+            color: white;
+        }
+
+        .contact .section-subtitle {
+            color: rgba(255,255,255,0.8);
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .contact-info h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-info p {
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            width: 50px;
+            height: 50px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .contact-form {
+            background: rgba(255,255,255,0.05);
+            padding: 2.5rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 10px;
+            background: rgba(255,255,255,0.05);
+            color: white;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255,255,255,0.5);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .form-group select option {
+            background: var(--secondary);
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 1rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-submit:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+        }
+
+        /* Footer */
+        footer {
+            background: #1a252f;
+            color: rgba(255,255,255,0.7);
+            text-align: center;
+            padding: 2rem;
+        }
+
+        footer p {
+            font-size: 0.95rem;
+        }
+
+        footer span {
+            color: var(--primary);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .about-content,
+            .featured-content,
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .recipes-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .about-image::before {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: white;
+                flex-direction: column;
+                padding: 1rem 2rem;
+                gap: 1rem;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .recipes-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .ingredients-list ul {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .btn {
+                padding: 0.8rem 2rem;
+            }
+
+            .contact-form {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="logo">Cook <span>with Debora</span></a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#acasa">Acasă</a></li>
+                <li><a href="#despre">Despre mine</a></li>
+                <li><a href="#retete">Rețete</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="acasa">
+        <div class="hero-content">
+            <h1>Cook with Debora</h1>
+            <p>Bun venit în bucătăria mea! Sunt Debora și aici împărtășesc cu drag pasiunea mea pentru gătit — rețete simple, gusturi autentice și multă dragoste pusă în fiecare preparat.</p>
+            <a href="#retete" class="btn">Descoperă rețetele</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="despre">
+        <div class="container">
+            <h2 class="section-title">Despre Mine</h2>
+            <p class="section-subtitle">Povestea din spatele bucătăriei</p>
+            
+            <div class="about-content">
+                <div class="about-image">
+                    <img src="[images.unsplash.com](https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=600)" alt="Debora în bucătărie">
+                </div>
+                <div class="about-text">
+                    <h3>Salut, sunt Debora! 👋</h3>
+                    <p>De când mă știu, bucătăria a fost locul meu preferat. Aici mi-am petrecut copilăria alături de bunica, învățând secretele rețetelor tradiționale și descoperind că mâncarea pregătită cu dragoste are un gust aparte.</p>
+                    <p>Pasiunea mea pentru gătit s-a transformat într-o adevărată aventură culinară. Îmi place să experimentez, să combin ingrediente neașteptate și să transform rețetele clasice în preparate moderne, păstrând totuși esența lor autentică.</p>
+                    <p>Prin acest blog vreau să te inspir să intri în bucătărie cu încredere și entuziasm. Nu trebuie să fii chef profesionist pentru a găti ceva delicios — ai nevoie doar de ingrediente bune și puțină pasiune!</p>
+                    <p class="signature">~ Debora</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recipes Section -->
+    <section class="recipes" id="retete">
+        <div class="container">
+            <h2 class="section-title">Rețetele Mele Favorite</h2>
+            <p class="section-subtitle">Preparate testate și aprobate de familia mea</p>
+            
+            <div class="recipes-grid">
+                <article class="recipe-card">
+                    <div class="recipe-image">
+                        <img src="[images.unsplash.com](https://images.unsplash.com/photo-1546549032-9571cd6b27df?w=500)" alt="Paste Carbonara">
+                        <span class="recipe-category">Paste</span>
+                    </div>
+                    <div class="recipe-content">
+                        <h3>Paste Carbonara Autentice</h3>
+                        <p>Rețeta originală italiană cu guanciale, ou și pecorino. Cremoase și pline de savoare!</p>
+                        <div class="recipe-meta">
+                            <span>⏱️ 25 min</span>
+                            <span>👥 4 porții</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="recipe-card">
+                    <div class="recipe-image">
+                        <img src="[images.unsplash.com](https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500)" alt="Pizza Margherita">
+                        <span class="recipe-category">Pizza</span>
+                    </div>
+                    <div class="recipe-content">
+                        <h3>Pizza Margherita de Casă</h3>
+                        <p>Blat subțire și crocant, sos de roșii proaspete și mozzarella de bufaliță.</p>
+                        <div class="recipe-meta">
+                            <span>⏱️ 45 min</span>
+                            <span>👥 2 porții</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="recipe-card">
+                    <div class="recipe-image">
+                        <img src="[images.unsplash.com](https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=500)" alt="French Toast">
+                        <span class="recipe-category">Mic dejun</span>
+                    </div>
+                    <div class="recipe-content">
+                        <h3>French Toast cu Fructe</h3>
+                        <p>Pâine înmuiată în ou și scorțișoară, prăjită și servită cu fructe proaspete.</p>
+                        <div class="recipe-meta">
+                            <span>⏱️ 15 min</span>
+                            <span>👥 2 porții</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="recipe-card">
+                    <div class="recipe-image">
+                        <img src="[images.unsplash.com](https://images.unsplash.com/photo-1547592180-85f173990554?w=500)" alt="Supă cremă">
+                        <span class="recipe-category">Supe</span>
+                    </div>
+                    <div class="recipe-content">
+                        <h3>Supă Cremă de Dovleac</h3>
+                        <p>Supă catifelată de dovleac cu ghimbir și cocos, perfectă pentru zilele răcoroase.</p>
+                        <div class="recipe-meta">
+                            <span>⏱️ 40 min</span>
+                            <span>👥 6 porții</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="recipe-card">
+                    <div class="recipe-image">
+                        <img src="[images.unsplash.com](https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=500)" alt="Clătite pufoase">
+                        <span class="recipe-category">Deserturi</span>
+                    </div>
+                    <div class="recipe-content">
+                        <h3>Clătite Pufoase Americane</h3>
+                        <p>Pancakes pufoase cu sirop de arțar și fructe de pădure proaspete.</p>
+                        <div class="recipe-meta">
+                            <span>⏱️ 20 min</span>
+                            <span>👥 4 porții</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="recipe-card">
+                    <div class="recipe-image">
+                        <img src="[images.unsplash.com](https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=500)" alt="Salată">
+                        <span class="recipe-category">Salate</span>
+                    </div>
+                    <div class="recipe-content">
+                        <h3>Salată Buddha Bowl</h3>
+                        <p>Bol colorat cu quinoa, legume coapte, avocado și dressing tahini.</p>
+                        <div class="recipe-meta">
+                            <span>⏱️ 35 min</span>
+                            <span>👥 2 porții</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Recipe -->
+    <section class="featured">
+        <div class="container">
+            <h2 class="section-title">Rețeta Săptămânii</h2>
+            <p class="section-subtitle">O rețetă specială pe care trebuie să o încerci</p>
+            
+            <div class="featured-content">
+                <div class="featured-image">
+                    <img src="[images.unsplash.com](https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=700)" alt="Tiramisu">
+                </div>
+                <div class="featured-text">
+                    <h3>Tiramisu Clasic Italian 🇮🇹</h3>
+                    <p>Desertul perfect pentru orice ocazie! Straturi de pișcoturi înmuiate în cafea espresso, cremă mascarpone catifelată și pudră generoasă de cacao. Rețeta bunicii mele, transmisă din generație în generație.</p>
+                    
+                    <div class="ingredients-list">
+                        <h4>🛒 Ingrediente necesare:</h4>
+                        <ul>
+                            <li>500g mascarpone</li>
+                            <li>4 ouă proaspete</li>
+                            <li>100g zahăr</li>
+                            <li>300ml cafea espresso</li>
+                            <li>200g pișcoturi Savoiardi</li>
+                            <li>Cacao pudră</li>
+                            <li>2 linguri Amaretto</li>
+                            <li>Un praf de sare</li>
+                        </ul>
+                    </div>
+                    
+                    <p><strong>Secretul meu:</strong> Lasă tiramisu la frigider cel puțin 6 ore (ideal peste noapte) pentru ca aromele să se contopească perfect. Și nu economisi la calitatea cafelei — face toată diferența!</p>
+                    
+                    <a href="#" class="btn">Vezi rețeta completă</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2 class="section-title">Spune-mi Părerea Ta</h2>
+            <p class="section-subtitle">Mi-ar plăcea să aud de la tine!</p>
+            
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Hai să ne conectăm! 💬</h3>
+                    <p>Ai încercat una dintre rețetele mele? Ai o sugestie sau o întrebare? Scrie-mi! Citesc fiecare mesaj și îmi face plăcere să discut cu voi despre pasiunea noastră comună pentru gătit.</p>
+                    <p>Poți să-mi lași și o recenzie sau să îmi spui ce rețete ai vrea să văd pe blog în viitor. Feedback-ul vostru mă ajută să creez conținut mai bun!</p>
+                    
+                    <div class="social-links">
+                        <a href="#" title="Instagram">📸</a>
+                        <a href="#" title="Facebook">👍</a>
+                        <a href="#" title="Pinterest">📌</a>
+                        <a href="#" title="YouTube">▶️</a>
+                    </div>
+                </div>
+                
+                <form class="contact-form" onsubmit="handleSubmit(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">Numele tău</label>
+                            <input type="text" id="name" placeholder="Ex: Maria" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" placeholder="email@exemplu.ro" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="subject">Subiect</label>
+                        <select id="subject" required>
+                            <option value="">Alege un subiect...</option>
+                            <option value="feedback">Feedback despre rețete</option>
+                            <option value="sugestie">Sugestie de rețetă</option>
+                            <option value="intrebare">Întrebare</option>
+                            <option value="colaborare">Propunere de colaborare</option>
+                            <option value="altele">Altele</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Mesajul tău</label>
+                        <textarea id="message" placeholder="Scrie aici mesajul tău..." required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn-submit">Trimite mesajul ✉️</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2024 <span>Cook with Debora</span>. Făcut cu ❤️ și multă pasiune pentru gătit.</p>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Close menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // Form submission handler
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+            
+            // Show confirmation
+            alert(`Mulțumesc, ${name}! 🎉\n\nMesajul tău a fost trimis cu succes.\nÎți voi răspunde la ${email} cât de curând posibil!\n\n~ Debora`);
+            
+            // Reset form
+            event.target.reset();
+        }
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
